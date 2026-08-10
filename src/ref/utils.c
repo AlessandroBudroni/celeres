@@ -1,0 +1,38 @@
+/**
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHORS ''AS IS'' AND ANY EXPRESS
+ * OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+ * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ **/
+
+#include "utils.h"
+#include <stdlib.h>
+
+void cswap(uintptr_t *a,
+           uintptr_t *b,
+           const uintptr_t mask) {
+    *a ^= (mask & *b);
+    *b ^= (mask & *a);
+    *a ^= (mask & *b);
+}
+
+int verify(const uint8_t *a,
+           const uint8_t *b,
+           const size_t len) {
+    uint8_t r = 0;
+
+    for(size_t i=0;i<len;i++) {
+        r |= a[i] ^ b[i];
+    }
+
+    return (-(uint64_t)r) >> 63;
+}
